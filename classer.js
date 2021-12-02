@@ -68,8 +68,8 @@ function Class(className, params) {
 
     // running init
     if (instance.init && shouldInit) {
-      newClass.init(param);
-      newClass.init = function() {
+      instance.init(param);
+      instance.init = function() {
         throw "Can't call 'init' in already initialized object.";
       };
     }
