@@ -18,7 +18,7 @@ function isInstance(o) {
   return ____classified__instance_cache.indexOf(o) != -1;
 }
 
-__non_overwriten_data_extends = ["name", "__inherits", "new", "toString", "extend", "abstract", "__class", "super"];
+var __non_overwriten_data_extends = ["name", "__inherits", "new", "toString", "extend", "abstract", "__class", "super"];
 function Class(className, params) {
   if (className == undefined) {
     className = "?";
@@ -83,14 +83,14 @@ function Class(className, params) {
     instance.cast = function(o) {
         if (!isClass(o)) throw "Not a valid Class";
         if (classObject.__inherits.indexOf(o) == -1) throw "Not inherited";
-        newO = o.new({}, false);
+        var newO = o.new({}, false);
         loopArray(Object.keys(newO), function(item) {
             if (__non_overwriten_data_extends.indexOf(item) != -1) return;
             newO[item] = instance[item];
         });
 
         return newO;
-    }
+    };
 
     ____classified__instance_cache.push(instance);
     return instance;
@@ -117,7 +117,7 @@ function Class(className, params) {
   classObject.abstract = function() {
     delete classObject.new;
     if (classObject.init) delete classObject.init;
-  }
+  };
   
   ____classified__class_cache.push(classObject);
   return classObject;
