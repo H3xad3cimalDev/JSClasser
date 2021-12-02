@@ -64,7 +64,7 @@ function Class(className, params) {
     }
     
     // some data
-    instance.__class = classObject;
+    instance.class = classObject;
 
     // running init
     if (instance.init && shouldInit) {
