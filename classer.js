@@ -97,7 +97,7 @@ function Class(className, params) {
   };
   
   classObject.toString = function() {
-    return "class '" + this.name + "' (classId: " + this.____classified____classId____ + ")";
+    return "class '" + this.name + "' (classId: " + this.__classId + ")";
   };
   
   classObject.extend = function(extendClassName, extendParams) {
