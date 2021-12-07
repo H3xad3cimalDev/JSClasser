@@ -18,7 +18,7 @@ function isInstance(o) {
   return ____classified__instance_cache.indexOf(o) != -1;
 }
 
-var __non_overwriten_data_extends = ["name", "__inherits", "new", "toString", "extend", "abstract", "__class", "super"];
+__non_overwriten_data_extends = ["name", "__inherits", "new", "toString", "extend", "abstract", "__class", "super"];
 function Class(className, params) {
   if (className == undefined) {
     className = "?";
@@ -64,7 +64,7 @@ function Class(className, params) {
     }
     
     // some data
-    instance.class = classObject;
+    instance.__class = classObject;
 
     // running init
     if (instance.init && shouldInit) {
@@ -77,27 +77,27 @@ function Class(className, params) {
     // extra funcs
     instance.instanceOf = function(o) {
         if (!isClass(o)) throw "Not a valid Class";
-        return this.class == o || classObject.__inherits.indexOf(o) != -1;
+        return this.class == o;
     };
 
     instance.cast = function(o) {
         if (!isClass(o)) throw "Not a valid Class";
-        if (classObject.__inherits.indexOf(o) == -1) throw "Not inherited";
-        var newO = o.new({}, false);
+        if (classObject.__inherits.indexOf(o) == -1 || o.__inherits.indexOf(classObject) == -1) throw "Not inherited";
+        newO = o.new({}, false);
         loopArray(Object.keys(newO), function(item) {
             if (__non_overwriten_data_extends.indexOf(item) != -1) return;
             newO[item] = instance[item];
         });
 
         return newO;
-    };
+    }
 
     ____classified__instance_cache.push(instance);
     return instance;
   };
   
   classObject.toString = function() {
-    return "class '" + this.name + "' (classId: " + this.__classId + ")";
+    return "class '" + this.name + "' (classId: " + this.____classified____classId____ + ")";
   };
   
   classObject.extend = function(extendClassName, extendParams) {
@@ -117,7 +117,7 @@ function Class(className, params) {
   classObject.abstract = function() {
     delete classObject.new;
     if (classObject.init) delete classObject.init;
-  };
+  }
   
   ____classified__class_cache.push(classObject);
   return classObject;
