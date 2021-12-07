@@ -4,10 +4,21 @@ function loopArray(array, callback) {
   }
 }
 
+function countArray(array, o) {
+    var count = 0;
+    loopArray(array, function(o1) {
+        if (o1 == o) {
+            count++;
+        }
+    });
+    return count;
+}
+
 // simple util function to add OOP into this ECMA 5 engine
-var ____classified__class_id_count = {};
+//var ____classified__class_id_count = [];
 var ____classified__class_cache = [];
 var ____classified__instance_cache = [];
+var ____classified__object_dump = [];
 function isClass(o) {
   if (typeof(o) != "object") throw "Not an object: " + o;
   return ____classified__class_cache.indexOf(o) != -1;
@@ -30,7 +41,8 @@ function Class(className, params) {
   
   classObject.name = className;
   classObject.__inherits = [];
-  
+  classObject.abstraced = false;
+
   if (params != undefined) {
     if (typeof(params) != "object") throw "params: " + params + "  isn't a object.";
     
@@ -42,6 +54,7 @@ function Class(className, params) {
   // adding methods
   classObject.new = function(param, shouldInit) {
     if (shouldInit == undefined) shouldInit = true;
+
     var instance = {};
     
     // copying class info
@@ -54,6 +67,7 @@ function Class(className, params) {
     });
     
     // class iding
+    /*
     if (____classified__class_id_count[classObject.name]) {
       var lastId = ____classified__class_id_count[classObject.name];
       instance.__classId = lastId + 1;
@@ -61,13 +75,19 @@ function Class(className, params) {
     } else {
       ____classified__class_id_count[classObject.name] = 0;
       instance.__classId = 0;
+    }*/
+    var __count = countArray(____classified__object_dump, classObject)
+    if (__count > 0) {
+        instance.__classId = count++;
+    } else {
+        instance.__classId = 0;
     }
     
     // some data
     instance.__class = classObject;
 
     // running init
-    if (instance.init && shouldInit) {
+    if (instance.init && shouldInit && !classObject.abstraced) {
       instance.init(param);
       instance.init = function() {
         throw "Can't call 'init' in already initialized object.";
@@ -92,12 +112,13 @@ function Class(className, params) {
         return newO;
     }
 
+    instance.toString = function() {
+        return "class '" + this.name + "' (instanceId: " + this.__classId + ")";
+    };
+
     ____classified__instance_cache.push(instance);
+    ____classified__object_dump.push(classObject);
     return instance;
-  };
-  
-  classObject.toString = function() {
-    return "class '" + this.name + "' (classId: " + this.____classified____classId____ + ")";
   };
   
   classObject.extend = function(extendClassName, extendParams) {
@@ -115,8 +136,12 @@ function Class(className, params) {
   };
   
   classObject.abstract = function() {
-    delete classObject.new;
+    //delete classObject.new;
+    //if (classObject.init) delete classObject.init;
+
+    // NEW
     if (classObject.init) delete classObject.init;
+    classObject.abstraced = true;
   }
   
   ____classified__class_cache.push(classObject);
