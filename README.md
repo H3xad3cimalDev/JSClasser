@@ -10,6 +10,7 @@ if classes aren't available.
 - `Class` Object
   - `Functions`
     - `new` - Creates an `Instance` of a `Class`
+    - `toString` - Nice output of the current `Instance` or `Class`
     - `extend` - Used as Class Inheritance
     - `abstract` - Abstractifies the `Class` so it can't create a `Instance`
   - `Properties`
@@ -22,14 +23,20 @@ Most `Class` Properties and functions will be inherited by the `Instance` Object
   - `Functions`
     - `instanceOf` - Checks if the `Class` passed is the name `Class` of the `Instance`
     - `cast` - Can cast the `Instance` back into a inherited `Instance` 
-    - `toString` - Nice output of the current `Instance`
-- `Properties`
+  - `Properties`
     - `__classId` - The ID of the `Instance` creation under that `Class`
     - `class` - Reference to the original `Class` Object
 
 - Base Library functions
   - `isClass` - Checks if the `object` passed is a `Class`
   - `isInstance` - Checks if the `object` passed is a `Instance`
+
+- `Enum` Object
+  - `Functions`
+    - `toString` - Nice output of the enum
+  - `Properties`
+    - `name` - Enum name
+    - `enum` - Count of the enum
 
 ## API Docs
 You first want to paste the `classer.js` code into your script.
@@ -125,6 +132,24 @@ var UserWindow = Window.new();
 UserWindow.x = 200;
 
 var UserWindowGI = UserWindow.cast(GraphicalInterface); // x in the GraphicalInterface will be 200 because the UserWindow.x was 200
+```
+
+## Creating a `Enum`
+Enumerators are suppose to replicate the `enum` keyword in other programming languages
+
+```js
+var WindowStates = Enum("WindowStates", [
+  "Maximized",
+  "Minimized",
+  "FullScreen",
+  "Custom"
+]);
+
+var MaxWindowState = WindowStates.Maximized;
+
+if (CurrentWindow.State == MaxWindowState) {
+  // do whatever when the window is maximized
+}
 ```
 
 ## Finally some checks.
