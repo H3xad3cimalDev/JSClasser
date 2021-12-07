@@ -10,7 +10,6 @@ if classes aren't available.
 - `Class` Object
   - `Functions`
     - `new` - Creates an `Instance` of a `Class`
-    - `toString` - Nice output of the current `Instance` or `Class`
     - `extend` - Used as Class Inheritance
     - `abstract` - Abstractifies the `Class` so it can't create a `Instance`
   - `Properties`
@@ -23,7 +22,8 @@ Most `Class` Properties and functions will be inherited by the `Instance` Object
   - `Functions`
     - `instanceOf` - Checks if the `Class` passed is the name `Class` of the `Instance`
     - `cast` - Can cast the `Instance` back into a inherited `Instance` 
-  - `Properties`
+    - `toString` - Nice output of the current `Instance`
+- `Properties`
     - `__classId` - The ID of the `Instance` creation under that `Class`
     - `class` - Reference to the original `Class` Object
 
