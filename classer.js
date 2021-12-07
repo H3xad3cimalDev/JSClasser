@@ -29,7 +29,7 @@ function isInstance(o) {
   return ____classified__instance_cache.indexOf(o) != -1;
 }
 
-__non_overwriten_data_extends = ["name", "__inherits", "new", "toString", "extend", "abstract", "__class", "super"];
+var __non_overwriten_data_extends = ["name", "__inherits", "new", "toString", "extend", "abstract", "__class", "super"];
 function Class(className, params) {
   if (className == undefined) {
     className = "?";
@@ -76,9 +76,9 @@ function Class(className, params) {
       ____classified__class_id_count[classObject.name] = 0;
       instance.__classId = 0;
     }*/
-    var __count = countArray(____classified__object_dump, classObject)
+    var __count = countArray(____classified__object_dump, classObject);p
     if (__count > 0) {
-        instance.__classId = count++;
+        instance.__classId = __count++;
     } else {
         instance.__classId = 0;
     }
@@ -97,20 +97,20 @@ function Class(className, params) {
     // extra funcs
     instance.instanceOf = function(o) {
         if (!isClass(o)) throw "Not a valid Class";
-        return this.class == o;
+        return this.class == o || classObject.__inherits.indexOf(o) != -1;
     };
 
     instance.cast = function(o) {
         if (!isClass(o)) throw "Not a valid Class";
         if (classObject.__inherits.indexOf(o) == -1 || o.__inherits.indexOf(classObject) == -1) throw "Not inherited";
-        newO = o.new({}, false);
+        var newO = o.new({}, false);
         loopArray(Object.keys(newO), function(item) {
             if (__non_overwriten_data_extends.indexOf(item) != -1) return;
             newO[item] = instance[item];
         });
 
         return newO;
-    }
+    };
 
     instance.toString = function() {
         return "class '" + this.name + "' (instanceId: " + this.__classId + ")";
@@ -142,8 +142,37 @@ function Class(className, params) {
     // NEW
     if (classObject.init) delete classObject.init;
     classObject.abstraced = true;
-  }
+  };
   
   ____classified__class_cache.push(classObject);
   return classObject;
+}
+
+function Enum(name, table) {
+    if (typeof(name) != "string") throw "Invalid name";
+    if (typeof(table) != "object") throw "Invalid enums";
+
+    var enumerate = Class(name);
+    delete enumerate.new;
+    delete enumerate.extend;
+    delete enumerate.abstract;
+    delete enumerate.abstraced;
+    delete enumerate.__inherits;
+
+    var ie = 0;
+    loopArray(table, function(eName) {
+        var enumerated = {};
+        
+        enumerated.name = eName;
+
+        enumerated.enum = ie;
+        enumerated.toString = function() {
+            return "enum '" + this.name + "' (eType: " + this.name + " | eCount: " + this.enum + ")";
+        };
+
+        ie++;
+        enumerate[eName] = enumerated;
+    });
+
+    return enumerate;
 }
