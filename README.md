@@ -163,6 +163,6 @@ var Triangle = Shape.extend("Triangle");
 var NRectangle = Rectangle.new();
 
 console.log(NRectangle.instanceOf(Rectangle)) // true
+console.log(NRectangle.instanceOf(Shape)) // true, althought it does inherit from the 'Shape` class, the Instance isn't a 'Shape' class it's a 'Rectangle' class
 console.log(NRectangle.instanceOf(Triangle)) // false
-console.log(NRectangle.instanceOf(Shape)) // false, althought it does inherit from the 'Shape` class, the Instance isn't a 'Shape' class it's a 'Rectangle' class
 ```
