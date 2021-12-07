@@ -77,7 +77,7 @@ function Class(className, params) {
     // extra funcs
     instance.instanceOf = function(o) {
         if (!isClass(o)) throw "Not a valid Class";
-        return this.class == o;
+        return this.class == o || classObject.__inherits.indexOf(o) != -1;
     };
 
     instance.cast = function(o) {
