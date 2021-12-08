@@ -76,7 +76,7 @@ function Class(className, params) {
       ____classified__class_id_count[classObject.name] = 0;
       instance.__classId = 0;
     }*/
-    var __count = countArray(____classified__object_dump, classObject);p
+    var __count = countArray(____classified__object_dump, classObject);
     if (__count > 0) {
         instance.__classId = __count++;
     } else {
