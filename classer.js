@@ -67,7 +67,7 @@ function Class(className, params) {
     });
     
     // class iding
-    var __count = countArray(____classified__object_dump, classObject);p
+    var __count = countArray(____classified__object_dump, classObject);
     if (__count > 0) {
         instance.__classId = __count++;
     } else {
