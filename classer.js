@@ -29,7 +29,7 @@ function isInstance(o) {
   return ____classified__instance_cache.indexOf(o) != -1;
 }
 
-var __non_overwriten_data_extends = ["name", "__inherits", "new", "toString", "extend", "abstract", "__class", "super"];
+var __non_overwriten_data_extends = ["name", "new", "toString", "extend", "abstract", "__class", "super", "__oldClassData"];
 function Class(className, params) {
   if (className == undefined) {
     className = "?";
@@ -67,16 +67,7 @@ function Class(className, params) {
     });
     
     // class iding
-    /*
-    if (____classified__class_id_count[classObject.name]) {
-      var lastId = ____classified__class_id_count[classObject.name];
-      instance.__classId = lastId + 1;
-      ____classified__class_id_count[classObject.name] = lastId + 1;
-    } else {
-      ____classified__class_id_count[classObject.name] = 0;
-      instance.__classId = 0;
-    }*/
-    var __count = countArray(____classified__object_dump, classObject);
+    var __count = countArray(____classified__object_dump, classObject);p
     if (__count > 0) {
         instance.__classId = __count++;
     } else {
@@ -108,7 +99,24 @@ function Class(className, params) {
             if (__non_overwriten_data_extends.indexOf(item) != -1) return;
             newO[item] = instance[item];
         });
+        
+        if (instance.__oldClassData || instance.__oldClassData.__sub__class__ == o) {
+          // load old class data
+          loopArray(Object.keys(instance.__oldClassData), function(item) {
+            if (item == "__sub__class__") return;
+            newO[item] = instance[item];
+        });
+        }
 
+        var oldClassData = {};
+        oldClassData.__sub__class__ = classObject;
+        loopArray(Object.key(instance.__class), function(key) {
+          if (!newO[key])
+            oldClassData[key] = instance[key];
+        });
+
+        newO.__oldClassData = oldClassData;
+        
         return newO;
     };
 
@@ -130,7 +138,9 @@ function Class(className, params) {
       
       newClassObject[key] = classObject[key];
     });
-    newClassObject.__inherits.push(classObject);
+    newClassObject.__inherits = classObject.__inherits;
+    if (newClassObject.__inherits.indexOf(classObject) == -1)
+      newClassObject.__inherits.push(classObject);
     newClassObject.super = classObject;
     return newClassObject;
   };
